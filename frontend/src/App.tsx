@@ -5,7 +5,7 @@ import "./App.css"
 import { Recipe } from './types'
 
 const App = () => {
-  const [searchTerm, setSearchTerm] = useState("burgers")
+  const [searchTerm, setSearchTerm] = useState<string>("")
   const [recipes, setRecipes] = useState<Recipe[]>([])
 
   const handleSearchSubmit = async (event: FormEvent) => {
@@ -22,6 +22,7 @@ const App = () => {
   return (
     <div>
       <form onSubmit={(event) => handleSearchSubmit(event)}>
+        <input type='text' required placeholder='Enter a search term ...' value={searchTerm} onChange={(event) => setSearchTerm(event.target.value)}></input>
         <button>submit</button>
       </form>
       {recipes.map((recipe) => (
