@@ -31,6 +31,7 @@ const App = () => {
 
     } catch (e) {
       console.log(e)
+      console.log(e)
     }
   }
 
