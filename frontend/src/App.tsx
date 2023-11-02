@@ -22,7 +22,7 @@ const App = () => {
     }
   }
 
-  const handleViewMoreClick = async ()=>{
+  const handleViewMoreClick = async () => {
     const nextPage = pageNumber.current + 1
     try {
       const nextRecipes = await api.searchRecipes(searchTerm, nextPage)
@@ -30,7 +30,6 @@ const App = () => {
       pageNumber.current = nextPage
 
     } catch (e) {
-      console.log(e)
       console.log(e)
     }
   }
@@ -42,7 +41,7 @@ const App = () => {
         <button>submit</button>
       </form>
       {recipes.map((recipe) => (
-<RecipeCard recipe={recipe}/>
+        <RecipeCard recipe={recipe} />
       ))}
       <button className="view-more-button" onClick={handleViewMoreClick}>
         View More

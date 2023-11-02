@@ -4,12 +4,12 @@ interface Props {
     recipe: Recipe
 }
 
-const RecipeCard = ({recipe}: Props) =>{
+const RecipeCard = ({ recipe }: Props) => {
     return (
         <div className="recipe-card">
             <img src={recipe.image}></img>
             <div className="recipe-card-title">
-<h3>{recipe.title}</h3>
+                <h3>{recipe.title}</h3>
             </div>
         </div>
     )
