@@ -1,8 +1,10 @@
 import express from 'express'
 import cors from 'cors'
 import * as RecipeAPI from './recipe-api'
+import { PrismaClient } from "@prisma/client"
 
 const app = express()
+const prismaClient = new PrismaClient()
 
 app.use(express.json())
 app.use(cors())
@@ -21,6 +23,25 @@ app.get("/api/recipes/:recipeId/summary", async (req, res) => {
     const results = await RecipeAPI.getRecipeSummary(recipeId)
 
     return res.json(results)
+})
+
+app.post("/api/recipes/favourite", async (req, res) => {
+    const recipeId = req.body.recipeId
+
+    try {
+        const favouriteRecipe = await prismaClient.favouriteRecipes.create(
+            {
+                data: {
+                    recipeId
+                }
+            }
+        )
+
+        return res.status(201).json(favouriteRecipe)
+    } catch (e) {
+        console.log(e)
+        return res.status(500).json({ error: "Oops, something went wrong" })
+    }
 })
 
 app.listen(5000, () => {
