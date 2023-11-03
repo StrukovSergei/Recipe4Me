@@ -44,6 +44,21 @@ app.post("/api/recipes/favourite", async (req, res) => {
     }
 })
 
+
+app.get("/api/recipes/favourite", async (req, res) => {
+    try {
+        const recipes = await prismaClient.favouriteRecipes.findMany()
+        const recipeIds = recipes.map((recipe) => recipe.recipeId.toString())
+
+        const favourites = await RecipeAPI.getFavouriteRecipesByIDs(recipeIds)
+
+        return res.json(favourites)
+    } catch (e) {
+        console.log(e)
+        return res.status(500).json({ error: "Oops, something went wrong" })
+    }
+})
+
 app.listen(5000, () => {
     console.log("server running on localhost:5000")
 })
