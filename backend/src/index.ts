@@ -59,6 +59,25 @@ app.get("/api/recipes/favourite", async (req, res) => {
     }
 })
 
-app.listen(5000, () => {
-    console.log("server running on localhost:5000")
+
+app.delete("/api/recipes/favourite", async (req, res) => {
+    const recipeId = req.body.recipeId
+
+    try {
+        await prismaClient.favouriteRecipes.delete({
+            where: {
+                recipeId
+            }
+        })
+
+
+        return res.status(204).send()
+    } catch (e) {
+        console.log(e)
+        return res.status(500).json({ error: "Oops, something went wrong" })
+    }
 })
+
+app.listen(5000, () => {
+    console.log("server running on localhost:5000");
+});
