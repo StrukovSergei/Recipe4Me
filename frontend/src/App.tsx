@@ -1,5 +1,5 @@
 import * as api from './api'
-import { FormEvent, useState, useRef } from "react"
+import { FormEvent, useState, useRef, useEffect } from "react"
 
 import "./App.css"
 import { Recipe } from './types'
@@ -13,7 +13,21 @@ const App = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([])
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | undefined>(undefined)
   const [selectedTab, setSelectedTab] = useState<Tabs>()
+  const [favouriteRecipes, setFavouriteRecipes] = useState<Recipe[]>([])
   const pageNumber = useRef(1)
+
+  useEffect(() => {
+    const fetchFavouriteRecipes = async () => {
+      try {
+        const favouriteRecipes = await api.getFavouriteRecipes()
+        setFavouriteRecipes(favouriteRecipes.results)
+      } catch (e) {
+        console.log(e)
+      }
+    }
+
+    fetchFavouriteRecipes()
+  }, [])
 
   const handleSearchSubmit = async (event: FormEvent) => {
     event.preventDefault()
@@ -61,7 +75,7 @@ const App = () => {
       )}
       {selectedTab === "favourites" && (
         <div>
-          this is favourites
+          {favouriteRecipes.map((recipe) => <RecipeCard recipe={recipe} onClick={() => setSelectedRecipe(recipe)} />)}
         </div>
       )}
       {selectedRecipe ? <RecipeModal recipeId={selectedRecipe.id.toString()} onClose={() => setSelectedRecipe(undefined)} /> : null}
