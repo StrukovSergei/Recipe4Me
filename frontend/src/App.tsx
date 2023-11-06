@@ -53,6 +53,15 @@ const App = () => {
     }
   }
 
+  const addFavouriteRecipe = async (recipe: Recipe) => {
+    try {
+      await api.addFavouriteRecipe(recipe)
+      setFavouriteRecipes([...favouriteRecipes, recipe])
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   return (
     <div>
       <div className='tabs'>
@@ -66,7 +75,7 @@ const App = () => {
             <button>submit</button>
           </form>
           {recipes.map((recipe) => (
-            <RecipeCard recipe={recipe} onClick={() => setSelectedRecipe(recipe)} />
+            <RecipeCard recipe={recipe} onClick={() => setSelectedRecipe(recipe)} onFavouriteButtonClick={addFavouriteRecipe} />
           ))}
           <button className="view-more-button" onClick={handleViewMoreClick}>
             View More
@@ -75,7 +84,7 @@ const App = () => {
       )}
       {selectedTab === "favourites" && (
         <div>
-          {favouriteRecipes.map((recipe) => <RecipeCard recipe={recipe} onClick={() => setSelectedRecipe(recipe)} />)}
+          {favouriteRecipes.map((recipe) => <RecipeCard recipe={recipe} onClick={() => setSelectedRecipe(recipe)} onFavouriteButtonClick={() => undefined} />)}
         </div>
       )}
       {selectedRecipe ? <RecipeModal recipeId={selectedRecipe.id.toString()} onClose={() => setSelectedRecipe(undefined)} /> : null}
