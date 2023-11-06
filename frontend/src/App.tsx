@@ -62,6 +62,16 @@ const App = () => {
     }
   }
 
+  const removeFavouriteRecipe = async (recipe: Recipe) => {
+    try {
+      await api.removeFavouriteRecipe(recipe)
+      const updatedRecipes = favouriteRecipes.filter((favRecipe) => recipe.id !== favRecipe.id)
+      setFavouriteRecipes(updatedRecipes)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   return (
     <div>
       <div className='tabs'>
