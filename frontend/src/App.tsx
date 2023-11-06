@@ -88,7 +88,7 @@ const App = () => {
             const isFavourite = favouriteRecipes.some((favRecipe) => recipe.id === favRecipe.id)
 
             return (
-              <RecipeCard recipe={recipe} onClick={() => setSelectedRecipe(recipe)} onFavouriteButtonClick={addFavouriteRecipe} isFavourite={isFavourite} />
+              <RecipeCard recipe={recipe} onClick={() => setSelectedRecipe(recipe)} onFavouriteButtonClick={isFavourite ? removeFavouriteRecipe : addFavouriteRecipe} isFavourite={isFavourite} />
             )
           })}
           <button className="view-more-button" onClick={handleViewMoreClick}>
@@ -98,7 +98,7 @@ const App = () => {
       )}
       {selectedTab === "favourites" && (
         <div>
-          {favouriteRecipes.map((recipe) => <RecipeCard recipe={recipe} onClick={() => setSelectedRecipe(recipe)} onFavouriteButtonClick={() => undefined} isFavourite={true} />)}
+          {favouriteRecipes.map((recipe) => <RecipeCard recipe={recipe} onClick={() => setSelectedRecipe(recipe)} onFavouriteButtonClick={removeFavouriteRecipe} isFavourite={true} />)}
         </div>
       )}
       {selectedRecipe ? <RecipeModal recipeId={selectedRecipe.id.toString()} onClose={() => setSelectedRecipe(undefined)} /> : null}
