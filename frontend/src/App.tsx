@@ -72,11 +72,15 @@ const App = () => {
         <>
           <form onSubmit={(event) => handleSearchSubmit(event)}>
             <input type='text' required placeholder='Enter a search term ...' value={searchTerm} onChange={(event) => setSearchTerm(event.target.value)}></input>
-            <button>submit</button>
+            <button type='submit'>Submit</button>
           </form>
-          {recipes.map((recipe) => (
-            <RecipeCard recipe={recipe} onClick={() => setSelectedRecipe(recipe)} onFavouriteButtonClick={addFavouriteRecipe} />
-          ))}
+          {recipes.map((recipe) => {
+            const isFavourite = favouriteRecipes.some((favRecipe) => recipe.id === favRecipe.id)
+
+            return (
+              <RecipeCard recipe={recipe} onClick={() => setSelectedRecipe(recipe)} onFavouriteButtonClick={addFavouriteRecipe} isFavourite={isFavourite} />
+            )
+          })}
           <button className="view-more-button" onClick={handleViewMoreClick}>
             View More
           </button>
@@ -84,7 +88,7 @@ const App = () => {
       )}
       {selectedTab === "favourites" && (
         <div>
-          {favouriteRecipes.map((recipe) => <RecipeCard recipe={recipe} onClick={() => setSelectedRecipe(recipe)} onFavouriteButtonClick={() => undefined} />)}
+          {favouriteRecipes.map((recipe) => <RecipeCard recipe={recipe} onClick={() => setSelectedRecipe(recipe)} onFavouriteButtonClick={() => undefined} isFavourite={true} />)}
         </div>
       )}
       {selectedRecipe ? <RecipeModal recipeId={selectedRecipe.id.toString()} onClose={() => setSelectedRecipe(undefined)} /> : null}
