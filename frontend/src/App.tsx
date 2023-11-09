@@ -1,6 +1,6 @@
 import "./App.css";
 import { FormEvent, useEffect, useRef, useState } from "react";
-import * as api from "./api";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom"; import * as api from "./api";
 import { Recipe } from "./types";
 import RecipeCard from "./components/RecipeCard";
 import RecipeModal from "./components/RecipeModal";
@@ -75,91 +75,98 @@ const App = () => {
   };
 
   return (
-    <div className="app-container">
-      <div className="header">
-        <img src="/hero-image.jpg"></img>
-        <div className="title">Recipe4Me</div>
-      </div>
-      <div className="tabs">
-        <h1
-          className={selectedTab === "search" ? "tab-active" : ""}
-          onClick={() => setSelectedTab("search")}
-        >
-          Recipe Search
-        </h1>
-        <h1
-          className={selectedTab === "favourites" ? "tab-active" : ""}
-          onClick={() => setSelectedTab("favourites")}
-        >
-          Favourites
-        </h1>
-      </div>
-
-      {selectedTab === "search" && (
-        <>
-          <form onSubmit={(event) => handleSearchSubmit(event)}>
-            <input
-              type="text"
-              required
-              placeholder="Enter a search term ..."
-              value={searchTerm}
-              onChange={(event) => setSearchTerm(event.target.value)}
-            ></input>
-            <button type="submit">
-              <AiOutlineSearch size={40} />
-            </button>
-          </form>
-
-          <div className="recipe-grid">
-            {recipes.map((recipe) => {
-              const isFavourite = favouriteRecipes.some(
-                (favRecipe) => recipe.id === favRecipe.id
-              );
-
-              return (
-                <RecipeCard
-                  recipe={recipe}
-                  onClick={() => setSelectedRecipe(recipe)}
-                  onFavouriteButtonClick={
-                    isFavourite ? removeFavouriteRecipe : addFavouriteRecipe
-                  }
-                  isFavourite={isFavourite}
-                />
-              );
-            })}
-          </div>
-
-          <button className="view-more-button" onClick={handleViewMoreClick}>
-            View More
-          </button>
-        </>
-      )}
-
-      {selectedTab === "favourites" && (
-        <div className="recipe-grid">
-          {favouriteRecipes.map((recipe) => (
-            <RecipeCard
-              recipe={recipe}
-              onClick={() => setSelectedRecipe(recipe)}
-              onFavouriteButtonClick={removeFavouriteRecipe}
-              isFavourite={true}
-            />
-          ))}
+    <Router>
+      <div className="app-container">
+        <div className="header">
+          <img src="/hero-image.jpg" alt="Hero"></img>
+          <div className="title">Recipe4Me</div>
         </div>
-      )}
+        <div className="tabs">
+          <Link to="/search" className={selectedTab === "search" ? "tab-active" : ""}>
+            <h1>Recipe Search</h1>
+          </Link>
+          <Link to="/favourites" className={selectedTab === "favourites" ? "tab-active" : ""}>
+            <h1>Favourites</h1>
+          </Link>
+        </div>
 
-      {selectedRecipe ? (
-        <RecipeModal
-          recipeId={selectedRecipe.id.toString()}
-          onClose={() => setSelectedRecipe(undefined)}
-        />
-      ) : null}
-          <div className="footer">
-      <p>&copy; {new Date().getFullYear()} Recipe4Me</p>
-    </div>
-    </div>
-    
+        <Routes>
+          <Route
+            path="/search"
+            element={
+              <>
+                <form onSubmit={(event) => handleSearchSubmit(event)}>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Enter a search term ..."
+                    value={searchTerm}
+                    onChange={(event) => setSearchTerm(event.target.value)}
+                  ></input>
+                  <button type="submit">
+                    <AiOutlineSearch size={40} />
+                  </button>
+                </form>
+
+                <div className="recipe-grid">
+                  {recipes.map((recipe) => {
+                    const isFavourite = favouriteRecipes.some(
+                      (favRecipe) => recipe.id === favRecipe.id
+                    );
+
+                    return (
+                      <RecipeCard
+                        key={recipe.id}
+                        recipe={recipe}
+                        onClick={() => setSelectedRecipe(recipe)}
+                        onFavouriteButtonClick={
+                          isFavourite ? removeFavouriteRecipe : addFavouriteRecipe
+                        }
+                        isFavourite={isFavourite}
+                      />
+                    );
+                  })}
+                </div>
+
+                <button className="view-more-button" onClick={handleViewMoreClick}>
+                  View More
+                </button>
+              </>
+            }
+          />
+
+          <Route
+            path="/favourites"
+            element={
+              <div className="recipe-grid">
+                {favouriteRecipes.map((recipe) => (
+                  <RecipeCard
+                    key={recipe.id}
+                    recipe={recipe}
+                    onClick={() => setSelectedRecipe(recipe)}
+                    onFavouriteButtonClick={removeFavouriteRecipe}
+                    isFavourite={true}
+                  />
+                ))}
+              </div>
+            }
+          />
+        </Routes>
+
+        {selectedRecipe ? (
+          <RecipeModal
+            recipeId={selectedRecipe.id.toString()}
+            onClose={() => setSelectedRecipe(undefined)}
+          />
+        ) : null}
+
+        <div className="footer">
+          <p>&copy; {new Date().getFullYear()} Recipe4Me</p>
+        </div>
+      </div>
+    </Router>
   );
 };
+
 
 export default App;
