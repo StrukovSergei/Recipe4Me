@@ -1,6 +1,7 @@
 import "./App.css";
 import { FormEvent, useEffect, useRef, useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom"; import * as api from "./api";
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from "react-router-dom";
+import * as api from "./api";
 import { Recipe } from "./types";
 import RecipeCard from "./components/RecipeCard";
 import RecipeModal from "./components/RecipeModal";
@@ -9,6 +10,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 type Tabs = "search" | "favourites";
 
 const App = () => {
+  let navigate = useNavigate()
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | undefined>(
@@ -37,6 +39,8 @@ const App = () => {
       const recipes = await api.searchRecipes(searchTerm, 1);
       setRecipes(recipes.results);
       pageNumber.current = 1;
+
+      navigate(`/search?term=${encodeURIComponent(searchTerm.trim())}`);
     } catch (e) {
       console.log(e);
     }
