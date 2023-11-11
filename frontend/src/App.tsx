@@ -1,6 +1,6 @@
 import "./App.css";
 import { FormEvent, useEffect, useRef, useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate, useLocation } from "react-router-dom";
 import * as api from "./api";
 import { Recipe } from "./types";
 import RecipeCard from "./components/RecipeCard";
@@ -11,6 +11,7 @@ type Tabs = "search" | "favourites";
 
 const App = () => {
   let navigate = useNavigate()
+  const location = useLocation();
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | undefined>(
@@ -31,7 +32,24 @@ const App = () => {
     };
 
     fetchFavouriteRecipes();
-  }, []);
+
+    const params = new URLSearchParams(location.search);
+    const termFromURL = params.get('term');
+    if (termFromURL) {
+      setSearchTerm(termFromURL);
+      const searchFromURL = async (termFromURL: string) => {
+        try {
+          const recipes = await api.searchRecipes(termFromURL, 1);
+          setRecipes(recipes.results);
+          pageNumber.current = 1;
+        } catch (e) {
+          console.log(e);
+        }
+      }
+
+      searchFromURL(termFromURL)
+    }
+  }, [location.search]);
 
   const handleSearchSubmit = async (event: FormEvent) => {
     event.preventDefault();
