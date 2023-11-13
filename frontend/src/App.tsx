@@ -49,6 +49,10 @@ const App = () => {
 
       searchFromURL(termFromURL)
     }
+    else {
+      setSearchTerm("");
+      
+    }
   }, [location.search]);
 
   const handleSearchSubmit = async (event: FormEvent) => {
