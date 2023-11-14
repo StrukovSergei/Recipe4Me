@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import * as api from '../api';
 import { Recipe } from '../types';
 import RecipeCard from '../components/RecipeCard';
+import RecipeModal from "../components/RecipeModal";
 import { AiOutlineSearch } from 'react-icons/ai';
 
 const AppSearch = () => {
@@ -13,43 +14,43 @@ const AppSearch = () => {
     const [favouriteRecipes, setFavouriteRecipes] = useState<Recipe[]>([]);
     const [selectedRecipe, setSelectedRecipe] = useState<Recipe | undefined>(
         undefined
-      );
+    );
     const pageNumber = useRef(1);
 
     useEffect(() => {
         const fetchFavouriteRecipes = async () => {
-          try {
-            const favouriteRecipes = await api.getFavouriteRecipes();
-            setFavouriteRecipes(favouriteRecipes.results);
-          } catch (error) {
-            console.log(error);
-          }
+            try {
+                const favouriteRecipes = await api.getFavouriteRecipes();
+                setFavouriteRecipes(favouriteRecipes.results);
+            } catch (error) {
+                console.log(error);
+            }
         };
-    
+
         fetchFavouriteRecipes();
-    
+
         const params = new URLSearchParams(location.search);
         const termFromURL = params.get('term');
         if (termFromURL) {
-          setSearchTerm(termFromURL);
-          const searchFromURL = async (termFromURL: string) => {
-            try {
-              const recipes = await api.searchRecipes(termFromURL, 1);
-              setRecipes(recipes.results);
-              pageNumber.current = 1;
-            } catch (e) {
-              console.log(e);
+            setSearchTerm(termFromURL);
+            const searchFromURL = async (termFromURL: string) => {
+                try {
+                    const recipes = await api.searchRecipes(termFromURL, 1);
+                    setRecipes(recipes.results);
+                    pageNumber.current = 1;
+                } catch (e) {
+                    console.log(e);
+                }
             }
-          }
-    
-          searchFromURL(termFromURL)
+
+            searchFromURL(termFromURL)
         }
         else {
-          setSearchTerm("");
-          
+            setSearchTerm("");
+
         }
-      }, [location.search]);
-    
+    }, [location.search]);
+
 
     const handleSearchSubmit = async (event: FormEvent) => {
         event.preventDefault();
@@ -86,15 +87,15 @@ const AppSearch = () => {
 
     const removeFavouriteRecipe = async (recipe: Recipe) => {
         try {
-          await api.removeFavouriteRecipe(recipe);
-          const updatedRecipes = favouriteRecipes.filter(
-            (favRecipe) => recipe.id !== favRecipe.id
-          );
-          setFavouriteRecipes(updatedRecipes);
+            await api.removeFavouriteRecipe(recipe);
+            const updatedRecipes = favouriteRecipes.filter(
+                (favRecipe) => recipe.id !== favRecipe.id
+            );
+            setFavouriteRecipes(updatedRecipes);
         } catch (error) {
-          console.log(error);
+            console.log(error);
         }
-      };
+    };
 
     return (
         <>
@@ -113,28 +114,35 @@ const AppSearch = () => {
 
             <div className="recipe-grid">
                 {recipes.map((recipe) => {
-                  const isFavourite = favouriteRecipes.some(
-                    (favRecipe) => recipe.id === favRecipe.id
-                  );
+                    const isFavourite = favouriteRecipes.some(
+                        (favRecipe) => recipe.id === favRecipe.id
+                    );
 
-                  return (
-                    <RecipeCard
-                      key={recipe.id}
-                      recipe={recipe}
-                      onClick={() => setSelectedRecipe(recipe)}
-                      onFavouriteButtonClick={
-                        isFavourite ? removeFavouriteRecipe : addFavouriteRecipe
-                      }
-                      isFavourite={isFavourite}
-                    />
-                  );
+                    return (
+                        <RecipeCard
+                            key={recipe.id}
+                            recipe={recipe}
+                            onClick={() => setSelectedRecipe(recipe)}
+                            onFavouriteButtonClick={
+                                isFavourite ? removeFavouriteRecipe : addFavouriteRecipe
+                            }
+                            isFavourite={isFavourite}
+                        />
+                    );
                 })}
-              </div>
+            </div>
 
-            {/* View More Button */}
             <button className="view-more-button" onClick={handleViewMoreClick}>
                 View More
             </button>
+
+
+            {selectedRecipe ? (
+                <RecipeModal
+                    recipeId={selectedRecipe.id.toString()}
+                    onClose={() => setSelectedRecipe(undefined)}
+                />
+            ) : null}
         </>
     );
 };
