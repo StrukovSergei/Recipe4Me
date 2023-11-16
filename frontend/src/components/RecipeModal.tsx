@@ -1,6 +1,6 @@
 import * as RecipeAPI from '../api'
 import { useEffect, useState } from "react"
-
+import { Link } from 'react-router-dom';
 import { RecipeSummary } from "../types"
 
 interface Props {
@@ -39,6 +39,9 @@ const RecipeModal = ({ recipeId, onClose }: Props) => {
                         <span className="close-btn" onClick={onClose}>&times;</span>
                     </div>
                     <p dangerouslySetInnerHTML={{ __html: recipeSummary.summary }}></p>
+                    <Link to={`/recipe/${recipeId}`}>
+                        <button>View Recipe</button>
+                    </Link>
                 </div>
             </div>
         </>
