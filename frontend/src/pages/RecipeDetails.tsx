@@ -23,7 +23,7 @@ const RecipeDetails = () => {
     if (!recipeInfo) {
         return <div>Loading...</div>;
     }
-
+    console.log(recipeInfo)
     return (
         <div>
             <h2>{recipeInfo.title}</h2>
@@ -34,18 +34,26 @@ const RecipeDetails = () => {
             <p>Gluten-Free: {recipeInfo.glutenFree ? 'Yes' : 'No'}</p>
             <p>Health Score: {recipeInfo.healthScore}</p>
             <img src={recipeInfo.image} alt={recipeInfo.title} />
+            <h3>Ingredients:</h3>
+            <ul>
+                {recipeInfo.extendedIngredients.map((ingredient, index) => (
+                    <li key={index}>
+                        {ingredient.name}: {ingredient.amount} {ingredient.unit}
+                    </li>
+                ))}
+            </ul>
 
             <h3>Instructions:</h3>
             <ul>
                 {recipeInfo.analyzedInstructions.map((instruction, index) => (
-                    <li key={index}>
-                        
+
+
                         <ol>
                             {instruction.steps.map((step, stepIndex) => (
                                 <li key={stepIndex}>{step.step}</li>
                             ))}
                         </ol>
-                    </li>
+
                 ))}
             </ul>
         </div>

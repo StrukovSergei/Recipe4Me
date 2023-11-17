@@ -1,4 +1,4 @@
-import { RouterProvider } from "react-router-dom";
+import { RouterProvider, } from "react-router-dom";
 
 import { router } from './router'
 
@@ -9,11 +9,10 @@ const App = () => {
 
   return (
     <>
-      <header>
-        app header
 
-      </header>
+        App Header
       <RouterProvider router={router} />
+
 
       <footer className="footer">
         <p>&copy; {new Date().getFullYear()} Recipe4Me</p>
