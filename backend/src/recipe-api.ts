@@ -82,9 +82,11 @@ export const getRecipeInfo = async (recipeId: string) => {
     }
 
     const url = new URL(`https://api.spoonacular.com/recipes/${recipeId}/information`)
+    const includeInstruction = "true"
 
     const queryParams = {
         apiKey,
+        query: includeInstruction,
     }
 
     url.search = new URLSearchParams(queryParams).toString()
