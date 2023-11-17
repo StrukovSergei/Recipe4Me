@@ -27,7 +27,7 @@ app.get("/api/recipes/:recipeId/summary", async (req, res) => {
 
 app.get("/api/recipes/:recipeId/information", async (req, res) => {
     const recipeId = req.params.recipeId
-    const results = await RecipeAPI.getRecipeSummary(recipeId)
+    const results = await RecipeAPI.getRecipeInfo(recipeId)
 
     return res.json(results)
 })

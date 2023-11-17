@@ -10,3 +10,16 @@ export interface RecipeSummary {
     title: string
     summary: string
 }
+
+export interface RecipeInfo {
+    id: number
+    title: string
+    vegan: boolean
+    glutenFree: boolean
+    readyInMinutes: number
+    servings: number
+    image: string
+    imageType: string
+    healthScore: number
+    analyzedInstructions: Array<String>
+}

@@ -1,15 +1,53 @@
 import { useParams } from 'react-router-dom';
+import * as RecipeAPI from '../api';
+import { useEffect, useState } from 'react';
+import { RecipeInfo } from '../types';
 
 const RecipeDetails = () => {
-    const { id } = useParams(); // Access the recipe ID from the URL params
+    const { id } = useParams();
+    const [recipeInfo, setRecipeInfo] = useState<RecipeInfo>();
 
-    // Fetch and display the recipe details using the ID
+    useEffect(() => {
+        const fetchRecipeInfo = async () => {
+            try {
+                const infoRecipe = await RecipeAPI.getRecipeInfo(id);
+                setRecipeInfo(infoRecipe);
+            } catch (e) {
+                console.log(e);
+            }
+        };
+
+        fetchRecipeInfo();
+    }, [id]);
+
+    if (!recipeInfo) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div>
-            <h2>Recipe Page</h2>
-            <p>Recipe ID: {id}</p>
-            {/* Add logic to fetch and display recipe details based on the ID */}
+            <h2>{recipeInfo.title}</h2>
+            <p>Recipe ID: {recipeInfo.id}</p>
+            <p>Ready in minutes: {recipeInfo.readyInMinutes}</p>
+            <p>Servings: {recipeInfo.servings}</p>
+            <p>Vegan: {recipeInfo.vegan ? 'Yes' : 'No'}</p>
+            <p>Gluten-Free: {recipeInfo.glutenFree ? 'Yes' : 'No'}</p>
+            <p>Health Score: {recipeInfo.healthScore}</p>
+            <img src={recipeInfo.image} alt={recipeInfo.title} />
+
+            <h3>Instructions:</h3>
+            <ul>
+                {recipeInfo.analyzedInstructions.map((instruction, index) => (
+                    <li key={index}>
+                        
+                        <ol>
+                            {instruction.steps.map((step, stepIndex) => (
+                                <li key={stepIndex}>{step.step}</li>
+                            ))}
+                        </ol>
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 };
