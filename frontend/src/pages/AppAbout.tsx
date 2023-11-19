@@ -1,7 +1,12 @@
+import AppHeader from "../components/AppHeader";
+
 const AppAbout = () => {
     return (
-     <div>AppAbout</div>
+        <>
+            <AppHeader />
+            <div>AppAbout</div>
+        </>
     )
-   }
-   
-   export default AppAbout
+}
+
+export default AppAbout

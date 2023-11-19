@@ -6,6 +6,7 @@ import { Recipe } from '../types';
 import RecipeCard from '../components/RecipeCard';
 import RecipeModal from "../components/RecipeModal";
 import { AiOutlineSearch } from 'react-icons/ai';
+import AppHeader from "../components/AppHeader";
 
 const AppSearch = () => {
     const navigate = useNavigate();
@@ -99,6 +100,7 @@ const AppSearch = () => {
 
     return (
         <>
+            <AppHeader />
             <form onSubmit={(event) => handleSearchSubmit(event)}>
                 <input
                     type="text"

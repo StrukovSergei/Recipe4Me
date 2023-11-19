@@ -4,6 +4,9 @@ import * as api from '../api';
 import { Recipe } from '../types';
 import RecipeCard from '../components/RecipeCard';
 import RecipeModal from "../components/RecipeModal";
+import AppHeader from "../components/AppHeader";
+
+
 
 
 const AppFavourites = () => {
@@ -38,6 +41,7 @@ const AppFavourites = () => {
     };
     return (
         <>
+        <AppHeader/>
             <div className="recipe-grid">
                 {favouriteRecipes.map((recipe) => (
                     <RecipeCard
