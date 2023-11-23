@@ -114,7 +114,7 @@ const AppSearch = () => {
                 </button>
             </form>
 
-            <div className="recipe-grid">
+            <div className="recipe-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                 {recipes.map((recipe) => {
                     const isFavourite = favouriteRecipes.some(
                         (favRecipe) => recipe.id === favRecipe.id
