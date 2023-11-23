@@ -85,6 +85,6 @@ app.delete("/api/recipes/favourite", async (req, res) => {
     }
 })
 
-app.listen(5000, () => {
+app.listen(5001, () => {
     console.log("server running on localhost:5000");
 });
