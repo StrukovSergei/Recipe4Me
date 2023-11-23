@@ -10,23 +10,20 @@ interface Props {
 
 const RecipeCard = ({ recipe, onClick, onFavouriteButtonClick, isFavourite }: Props) => {
     return (
-        <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 p-4">
-            <div className="recipe-card" onClick={onClick}>
-                <img className="w-full h-32 object-cover mb-2" src={recipe.image} alt={recipe.title} />
-                <div className="recipe-card-title">
-                    <span
-                        onClick={(event) => {
-                            event.stopPropagation();
-                            onFavouriteButtonClick(recipe);
-                        }}
-                    >
-                        {isFavourite ? <AiFillHeart size={25} color="red" /> : <AiOutlineHeart size={25} />}
-                    </span>
-                    <h3 className="text-sm mt-2">{recipe.title}</h3>
-                </div>
+        <div className="recipe-card" onClick={onClick}>
+            <img src={recipe.image}></img>
+            <div className="recipe-card-title">
+                <span onClick={(event) => {
+                    event.stopPropagation()
+                    onFavouriteButtonClick(recipe)
+                }}>
+                    {isFavourite ? <AiFillHeart size={25} color="red" /> : <AiOutlineHeart size={25} />}
+
+                </span>
+                <h3>{recipe.title}</h3>
             </div>
         </div>
-    );
-};
+    )
+}
 
 export default RecipeCard
