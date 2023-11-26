@@ -100,3 +100,80 @@ export const getRecipeInfo = async (recipeId: string) => {
         console.log(error)
     }
 }
+
+export const getRandomRecipes = async () => {
+    const number = 10
+    if (!apiKey) {
+        throw new Error("API Key not found")
+    }
+
+    const url = new URL("https://api.spoonacular.com/recipes/random")
+
+    const queryParams = {
+        apiKey,
+        number: number.toString(),
+    }
+
+    url.search = new URLSearchParams(queryParams).toString()
+
+    try {
+        const response = await fetch(url)
+        const resultsJson = await response.json()
+
+        return resultsJson
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const getVegetarianRecipes = async () => {
+    const number = 10
+    if (!apiKey) {
+        throw new Error("API Key not found")
+    }
+
+    const url = new URL("https://api.spoonacular.com/recipes/random")
+
+    const queryParams = {
+        apiKey,
+        number: number.toString(),
+        tags: "vegetarian",
+    }
+
+    url.search = new URLSearchParams(queryParams).toString()
+
+    try {
+        const response = await fetch(url)
+        const resultsJson = await response.json()
+
+        return resultsJson
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const getDessertRecipes = async () => {
+    const number = 10
+    if (!apiKey) {
+        throw new Error("API Key not found")
+    }
+
+    const url = new URL("https://api.spoonacular.com/recipes/random")
+
+    const queryParams = {
+        apiKey,
+        number: number.toString(),
+        tags: "dessert",
+    }
+
+    url.search = new URLSearchParams(queryParams).toString()
+
+    try {
+        const response = await fetch(url)
+        const resultsJson = await response.json()
+
+        return resultsJson
+    } catch (error) {
+        console.log(error)
+    }
+}
