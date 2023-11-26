@@ -85,6 +85,37 @@ app.delete("/api/recipes/favourite", async (req, res) => {
     }
 })
 
+
+app.get("/api/recipes/random", async (req, res) => {
+    try {
+        const results = await RecipeAPI.getRandomRecipes()
+        return res.json(results)
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({ error: "Oops, something went wrong" })
+    }
+})
+
+app.get("/api/recipes/vegetarian", async (req, res) => {
+    try {
+        const results = await RecipeAPI.getVegetarianRecipes()
+        return res.json(results)
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({ error: "Oops, something went wrong" })
+    }
+})
+
+app.get("/api/recipes/dessert", async (req, res) => {
+    try {
+        const results = await RecipeAPI.getDessertRecipes()
+        return res.json(results)
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({ error: "Oops, something went wrong" })
+    }
+})
+
 app.listen(5001, () => {
-    console.log("server running on localhost:5000");
-});
+    console.log("server running on localhost:5000")
+})
