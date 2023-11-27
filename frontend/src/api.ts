@@ -90,3 +90,36 @@ export const removeFavouriteRecipe = async (recipe: Recipe) => {
         throw new Error(`HTTP error! Status : ${response.status}`)
     }
 }
+
+export const getRandomRecipes = async () => {
+    const url = new URL("http://localhost:5000/api/recipes/random");
+    const response = await fetch(url);
+
+    if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    return response.json();
+};
+
+export const getVegetarianRecipes = async () => {
+    const url = new URL("http://localhost:5000/api/recipes/vegetarian");
+    const response = await fetch(url);
+
+    if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    return response.json();
+};
+
+export const getDessertRecipes = async () => {
+    const url = new URL("http://localhost:5000/api/recipes/dessert");
+    const response = await fetch(url);
+
+    if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    return response.json();
+};
