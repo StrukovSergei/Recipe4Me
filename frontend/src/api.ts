@@ -99,18 +99,22 @@ export const getRandomRecipes = async () => {
         throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
+
     return response.json();
 };
 
 export const getVegetarianRecipes = async () => {
     const url = new URL("http://localhost:5000/api/recipes/vegetarian");
-    const response = await fetch(url);
-
-    if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+    } catch (error) {
+        console.error("Error fetching vegetarian recipes:", error);
+        throw error;
     }
-
-    return response.json();
 };
 
 export const getDessertRecipes = async () => {

@@ -120,6 +120,8 @@ export const getRandomRecipes = async () => {
         const response = await fetch(url)
         const resultsJson = await response.json()
 
+
+
         return resultsJson
     } catch (error) {
         console.log(error)
