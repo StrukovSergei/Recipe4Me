@@ -28,7 +28,7 @@ const AppHome = () => {
       try {
         const response = await api.getVegetarianRecipes();
         const recipes = response.recipes; 
-        setRandomRecipes(recipes);
+        setVegetarianRecipes(recipes)
       } catch (error) {
         console.log(error);
       }
@@ -38,7 +38,7 @@ const AppHome = () => {
       try {
         const response = await api.getDessertRecipes();
         const recipes = response.recipes; 
-        setRandomRecipes(recipes);
+        setDessertRecipes(recipes)
       } catch (error) {
         console.log(error);
       }
@@ -59,17 +59,6 @@ const AppHome = () => {
     fetchFavouriteRecipes();
   }, []);
 
-  const handleViewMoreClick = async () => {
-    const nextPage = pageNumber.current + 1;
-    try {
-      const nextRecipes = await api.searchRecipes(searchTerm, nextPage);
-      setRecipes([...recipes, ...nextRecipes.results]);
-      console.log("🚀 ~ file: AppHome.tsx:68 ~ handleViewMoreClick ~ Recipes.results:", Recipes.results)
-      pageNumber.current = nextPage;
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const addFavouriteRecipe = async (recipe: Recipe) => {
     try {
