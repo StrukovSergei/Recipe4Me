@@ -17,7 +17,7 @@ const AppHome = () => {
     const fetchRandomRecipes = async () => {
       try {
         const response = await api.getRandomRecipes();
-        const recipes = response.recipes; 
+        const recipes = response.recipes;
         setRandomRecipes(recipes);
       } catch (error) {
         console.log(error);
@@ -27,7 +27,7 @@ const AppHome = () => {
     const fetchVegetarianRecipes = async () => {
       try {
         const response = await api.getVegetarianRecipes();
-        const recipes = response.recipes; 
+        const recipes = response.recipes;
         setVegetarianRecipes(recipes)
       } catch (error) {
         console.log(error);
@@ -37,7 +37,7 @@ const AppHome = () => {
     const fetchDessertRecipes = async () => {
       try {
         const response = await api.getDessertRecipes();
-        const recipes = response.recipes; 
+        const recipes = response.recipes;
         setDessertRecipes(recipes)
       } catch (error) {
         console.log(error);
@@ -84,47 +84,49 @@ const AppHome = () => {
     <>
       <AppHeader />
 
+      <div className="flex flex-col mb-4">
+        <h2>Favourite Recipes</h2>
+        <div className="recipe-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          {favouriteRecipes.map((recipe) => {
+            const isFavourite = favouriteRecipes.some(
+              (favRecipe) => recipe.id === favRecipe.id
+            );
 
-      <h2>Favourite Recipes</h2>
-      <div className="recipe-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-        {favouriteRecipes.map((recipe) => {
-          const isFavourite = favouriteRecipes.some(
-            (favRecipe) => recipe.id === favRecipe.id
-          );
-
-          return (
-            <RecipeCard
-              key={recipe.id}
-              recipe={recipe}
-              onClick={() => setSelectedRecipe(recipe)}
-              onFavouriteButtonClick={
-                isFavourite ? removeFavouriteRecipe : addFavouriteRecipe
-              }
-              isFavourite={isFavourite}
-            />
-          );
-        })}
+            return (
+              <RecipeCard
+                key={recipe.id}
+                recipe={recipe}
+                onClick={() => setSelectedRecipe(recipe)}
+                onFavouriteButtonClick={
+                  isFavourite ? removeFavouriteRecipe : addFavouriteRecipe
+                }
+                isFavourite={isFavourite}
+              />
+            );
+          })}
+        </div>
       </div>
+      <div className="flex flex-col mb-4">
+        <h2>Random Recipes</h2>
+        <div className="recipe-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          {randomRecipes.map((recipe) => {
+            const isFavourite = favouriteRecipes.some(
+              (favRecipe) => recipe.id === favRecipe.id
+            );
 
-      <h2>Random Recipes</h2>
-      <div className="recipe-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-        {randomRecipes.map((recipe) => {
-          const isFavourite = favouriteRecipes.some(
-            (favRecipe) => recipe.id === favRecipe.id
-          );
-
-          return (
-            <RecipeCard
-              key={recipe.id}
-              recipe={recipe}
-              onClick={() => setSelectedRecipe(recipe)}
-              onFavouriteButtonClick={
-                isFavourite ? removeFavouriteRecipe : addFavouriteRecipe
-              }
-              isFavourite={isFavourite}
-            />
-          );
-        })}
+            return (
+              <RecipeCard
+                key={recipe.id}
+                recipe={recipe}
+                onClick={() => setSelectedRecipe(recipe)}
+                onFavouriteButtonClick={
+                  isFavourite ? removeFavouriteRecipe : addFavouriteRecipe
+                }
+                isFavourite={isFavourite}
+              />
+            );
+          })}
+        </div>
       </div>
 
       <h2>Vegetarian Recipes</h2>
