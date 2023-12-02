@@ -3,6 +3,7 @@ import AppHeader from "../components/AppHeader";
 import * as api from "../api";
 import RecipeCard from "../components/RecipeCard";
 import { Recipe } from "../types";
+import SimpleSlider from "../components/SimpleSlider";
 
 const AppHome = () => {
   const [randomRecipes, setRandomRecipes] = useState<Recipe[]>([]);
@@ -80,98 +81,29 @@ const AppHome = () => {
       console.log(error);
     }
   };
+
+
   return (
     <>
       <AppHeader />
 
-      <div className="flex flex-col mb-4">
-        <h2>Favourite Recipes</h2>
-        <div className="recipe-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-          {favouriteRecipes.map((recipe) => {
-            const isFavourite = favouriteRecipes.some(
-              (favRecipe) => recipe.id === favRecipe.id
-            );
-
-            return (
-              <RecipeCard
-                key={recipe.id}
-                recipe={recipe}
-                onClick={() => setSelectedRecipe(recipe)}
-                onFavouriteButtonClick={
-                  isFavourite ? removeFavouriteRecipe : addFavouriteRecipe
-                }
-                isFavourite={isFavourite}
-              />
-            );
-          })}
-        </div>
-      </div>
-      <div className="flex flex-col mb-4">
-        <h2>Random Recipes</h2>
-        <div className="recipe-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-          {randomRecipes.map((recipe) => {
-            const isFavourite = favouriteRecipes.some(
-              (favRecipe) => recipe.id === favRecipe.id
-            );
-
-            return (
-              <RecipeCard
-                key={recipe.id}
-                recipe={recipe}
-                onClick={() => setSelectedRecipe(recipe)}
-                onFavouriteButtonClick={
-                  isFavourite ? removeFavouriteRecipe : addFavouriteRecipe
-                }
-                isFavourite={isFavourite}
-              />
-            );
-          })}
-        </div>
-      </div>
-
-      <h2>Vegetarian Recipes</h2>
-      <div className="recipe-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-        {vegetarianRecipes.map((recipe) => {
-          const isFavourite = favouriteRecipes.some(
-            (favRecipe) => recipe.id === favRecipe.id
-          );
-
-          return (
-            <RecipeCard
-              key={recipe.id}
-              recipe={recipe}
-              onClick={() => setSelectedRecipe(recipe)}
-              onFavouriteButtonClick={
-                isFavourite ? removeFavouriteRecipe : addFavouriteRecipe
-              }
-              isFavourite={isFavourite}
-            />
-          );
-        })}
-      </div>
-
-      <h2>Dessert Recipes</h2>
-      <div className="recipe-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-        {dessertRecipes.map((recipe) => {
-          const isFavourite = favouriteRecipes.some(
-            (favRecipe) => recipe.id === favRecipe.id
-          );
-
-          return (
-            <RecipeCard
-              key={recipe.id}
-              recipe={recipe}
-              onClick={() => setSelectedRecipe(recipe)}
-              onFavouriteButtonClick={
-                isFavourite ? removeFavouriteRecipe : addFavouriteRecipe
-              }
-              isFavourite={isFavourite}
-            />
-          );
-        })}
-      </div>
+      <SimpleSlider
+        recipes={favouriteRecipes}
+        setSelectedRecipe={setSelectedRecipe}
+      />
+      <SimpleSlider
+        recipes={randomRecipes}
+        setSelectedRecipe={setSelectedRecipe}
+      />
+      <SimpleSlider
+        recipes={vegetarianRecipes}
+        setSelectedRecipe={setSelectedRecipe}
+      />
+      <SimpleSlider
+        recipes={dessertRecipes}
+        setSelectedRecipe={setSelectedRecipe}
+      />
     </>
   );
 };
-
 export default AppHome;
