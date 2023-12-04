@@ -4,6 +4,7 @@ import * as api from "../api";
 import RecipeCard from "../components/RecipeCard";
 import { Recipe } from "../types";
 import SimpleSlider from "../components/SimpleSlider";
+import RecipeModal from "../components/RecipeModal";
 
 const AppHome = () => {
   const [randomRecipes, setRandomRecipes] = useState<Recipe[]>([]);
@@ -103,6 +104,12 @@ const AppHome = () => {
         recipes={dessertRecipes}
         setSelectedRecipe={setSelectedRecipe}
       />
+            {selectedRecipe ? (
+        <RecipeModal
+          recipeId={selectedRecipe.id.toString()}
+          onClose={() => setSelectedRecipe(undefined)}
+        />
+      ) : null}
     </>
   );
 };
