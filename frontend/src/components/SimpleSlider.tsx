@@ -1,48 +1,29 @@
-import React, { useState } from 'react';
-import { Recipe } from '../types';
-import RecipeCard from './RecipeCard';
+import React from "react";
+import Carousel from "react-elastic-carousel";
+import RecipeCard from "./RecipeCard";
+import { Recipe } from "../types";
 
-const SimpleSlider = ({ recipes, setSelectedRecipe }) => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  const nextSlide = () => {
-    setCurrentSlide((prevSlide) => (prevSlide + 1) % recipes.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prevSlide) => (prevSlide - 1 + recipes.length) % recipes.length);
-  };
+const RecipeSlider = ({ recipes, onRecipeClick, onFavouriteButtonClick }) => {
+  const breakPoints = [
+    { width: 1, itemsToShow: 1 },
+    { width: 550, itemsToShow: 2 },
+    { width: 768, itemsToShow: 3 },
+    { width: 1200, itemsToShow: 4 },
+  ];
 
   return (
-    <div className="relative mb-4">
-      <h2 className="mb-2">{recipes.length > 0 && recipes[currentSlide].category}</h2>
-      <div className="flex overflow-hidden">
-        {recipes.map((recipe, index) => (
-          <div
-            key={recipe.id}
-            className={`flex-shrink-0 w-full transform transition-transform duration-300 ${
-              index === currentSlide ? 'translate-x-0' : 'translate-x-full'
-            }`}
-          >
-            <RecipeCard recipe={recipe} onClick={() => setSelectedRecipe(recipe)} />
-          </div>
-        ))}
-      </div>
-
-      <button
-        className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-r-md focus:outline-none"
-        onClick={prevSlide}
-      >
-        Previous
-      </button>
-      <button
-        className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-l-md focus:outline-none"
-        onClick={nextSlide}
-      >
-        Next
-      </button>
-    </div>
+    <Carousel breakPoints={breakPoints}>
+      {recipes.map((recipe) => (
+        <RecipeCard
+          key={recipe.id}
+          recipe={recipe}
+          onClick={() => onRecipeClick(recipe)}
+          onFavouriteButtonClick={onFavouriteButtonClick}
+          isFavourite={false} // You need to adjust this based on your logic
+        />
+      ))}
+    </Carousel>
   );
 };
 
-export default SimpleSlider;
+export default RecipeSlider;
