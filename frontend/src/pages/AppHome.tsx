@@ -25,7 +25,7 @@ const AppHome = () => {
         const response = await api.getRandomRecipes();
         const recipes = response.recipes;
         setRandomRecipes(recipes);
-        
+
       } catch (error) {
         console.log(error);
       }
@@ -112,39 +112,42 @@ const AppHome = () => {
   };
 
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 5,
     slidesToScroll: 5,
+    arrows: true
   };
 
   return (
     <>
-      <AppHeader />
+      <div className="my-custom-layout">
+        <AppHeader />
 
-      <div className="flex flex-col mb-4">
-        <h2>Favourite Recipes</h2>
-        <Slider {...settings}>{renderSliderContent(favouriteRecipes)}</Slider>
+        <div className="flex flex-col mb-4">
+          <h2>Favourite Recipes</h2>
+          <Slider {...settings}>{renderSliderContent(favouriteRecipes)}</Slider>
+        </div>
+
+        <div className="flex flex-col mb-4">
+          <h2>Random Recipes</h2>
+          <Slider {...settings}>{renderSliderContent(randomRecipes)}</Slider>
+        </div>
+
+        <h2>Vegetarian Recipes</h2>
+        <Slider {...settings}>{renderSliderContent(vegetarianRecipes)}</Slider>
+
+        <h2>Dessert Recipes</h2>
+        <Slider {...settings}>{renderSliderContent(dessertRecipes)}</Slider>
+
+        {selectedRecipe ? (
+          <RecipeModal
+            recipeId={selectedRecipe.id.toString()}
+            onClose={() => setSelectedRecipe(undefined)}
+          />
+        ) : null}
       </div>
-
-      <div className="flex flex-col mb-4">
-        <h2>Random Recipes</h2>
-        <Slider {...settings}>{renderSliderContent(randomRecipes)}</Slider>
-      </div>
-
-      <h2>Vegetarian Recipes</h2>
-      <Slider {...settings}>{renderSliderContent(vegetarianRecipes)}</Slider>
-
-      <h2>Dessert Recipes</h2>
-      <Slider {...settings}>{renderSliderContent(dessertRecipes)}</Slider>
-
-      {selectedRecipe ? (
-        <RecipeModal
-          recipeId={selectedRecipe.id.toString()}
-          onClose={() => setSelectedRecipe(undefined)}
-        />
-      ) : null}
     </>
   );
 };
