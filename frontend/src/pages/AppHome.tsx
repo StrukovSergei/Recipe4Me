@@ -22,10 +22,15 @@ const AppHome = () => {
   useEffect(() => {
     const fetchRandomRecipes = async () => {
       try {
-        const response = await api.getRandomRecipes();
-        const recipes = response.recipes;
-        setRandomRecipes(recipes);
-
+        const storedRecipes = localStorage.getItem('randomRecipes');
+        if (storedRecipes) {
+          setRandomRecipes(JSON.parse(storedRecipes));
+        } else {
+          const response = await api.getRandomRecipes();
+          const recipes = response.recipes;
+          setRandomRecipes(recipes);
+          localStorage.setItem('randomRecipes', JSON.stringify(recipes));
+        }
       } catch (error) {
         console.log(error);
       }
@@ -33,9 +38,15 @@ const AppHome = () => {
 
     const fetchVegetarianRecipes = async () => {
       try {
-        const response = await api.getVegetarianRecipes();
-        const recipes = response.recipes;
-        setVegetarianRecipes(recipes)
+        const storedRecipes = localStorage.getItem('vegetarianRecipes');
+        if (storedRecipes) {
+          setVegetarianRecipes(JSON.parse(storedRecipes));
+        } else {
+          const response = await api.getVegetarianRecipes();
+          const recipes = response.recipes;
+          setVegetarianRecipes(recipes);
+          localStorage.setItem('vegetarianRecipes', JSON.stringify(recipes));
+        }
       } catch (error) {
         console.log(error);
       }
@@ -43,9 +54,15 @@ const AppHome = () => {
 
     const fetchDessertRecipes = async () => {
       try {
-        const response = await api.getDessertRecipes();
-        const recipes = response.recipes;
-        setDessertRecipes(recipes)
+        const storedRecipes = localStorage.getItem('dessertRecipes');
+        if (storedRecipes) {
+          setDessertRecipes(JSON.parse(storedRecipes));
+        } else {
+          const response = await api.getDessertRecipes();
+          const recipes = response.recipes;
+          setDessertRecipes(recipes);
+          localStorage.setItem('dessertRecipes', JSON.stringify(recipes));
+        }
       } catch (error) {
         console.log(error);
       }
@@ -53,14 +70,18 @@ const AppHome = () => {
 
     const fetchFavouriteRecipes = async () => {
       try {
-        const recipes = await api.getFavouriteRecipes();
-        setFavouriteRecipes(recipes.results);
+        const storedRecipes = localStorage.getItem('favouriteRecipes');
+        if (storedRecipes) {
+          setFavouriteRecipes(JSON.parse(storedRecipes));
+        } else {
+          const recipes = await api.getFavouriteRecipes();
+          setFavouriteRecipes(recipes.results);
+          localStorage.setItem('favouriteRecipes', JSON.stringify(recipes.results));
+        }
       } catch (error) {
         console.log(error);
       }
     };
-
-
 
     fetchRandomRecipes();
     fetchVegetarianRecipes();
